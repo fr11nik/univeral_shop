@@ -1,0 +1,51 @@
+{
+  "name": "SequelizeForeignKeyConstraintError",
+  "parent": {
+    "length": 361,
+    "name": "error",
+    "severity": "ОШИБКА",
+    "code": "23503",
+    "detail": "Ключ (deviceId)=(5) отсутствует в таблице \"devices\".",
+    "schema": "public",
+    "table": "basket_devices",
+    "constraint": "basket_devices_deviceId_fkey",
+    "file": "ri_triggers.c",
+    "line": "3266",
+    "routine": "ri_ReportViolation",
+    "sql": "INSERT INTO \"basket_devices\" (\"id\",\"createdAt\",\"updatedAt\",\"basketId\",\"deviceId\") VALUES (DEFAULT,$1,$2,$3,$4) RETURNING \"id\",\"createdAt\",\"updatedAt\",\"basketId\",\"deviceId\";",
+    "parameters": [
+      "2023-05-27 15:41:50.414 +00:00",
+      "2023-05-27 15:41:50.414 +00:00",
+      1,
+      "5"
+    ]
+  },
+  "original": {
+    "length": 361,
+    "name": "error",
+    "severity": "ОШИБКА",
+    "code": "23503",
+    "detail": "Ключ (deviceId)=(5) отсутствует в таблице \"devices\".",
+    "schema": "public",
+    "table": "basket_devices",
+    "constraint": "basket_devices_deviceId_fkey",
+    "file": "ri_triggers.c",
+    "line": "3266",
+    "routine": "ri_ReportViolation",
+    "sql": "INSERT INTO \"basket_devices\" (\"id\",\"createdAt\",\"updatedAt\",\"basketId\",\"deviceId\") VALUES (DEFAULT,$1,$2,$3,$4) RETURNING \"id\",\"createdAt\",\"updatedAt\",\"basketId\",\"deviceId\";",
+    "parameters": [
+      "2023-05-27 15:41:50.414 +00:00",
+      "2023-05-27 15:41:50.414 +00:00",
+      1,
+      "5"
+    ]
+  },
+  "sql": "INSERT INTO \"basket_devices\" (\"id\",\"createdAt\",\"updatedAt\",\"basketId\",\"deviceId\") VALUES (DEFAULT,$1,$2,$3,$4) RETURNING \"id\",\"createdAt\",\"updatedAt\",\"basketId\",\"deviceId\";",
+  "parameters": [
+    "2023-05-27 15:41:50.414 +00:00",
+    "2023-05-27 15:41:50.414 +00:00",
+    1,
+    "5"
+  ],
+  "fields": null
+}
