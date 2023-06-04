@@ -13,6 +13,7 @@ class DiscountController {
     }
     async delete(req,res){
         const deviceId = req.body.deviceId;
+        const deviceName = req.body.deviceName;
         if(!deviceId) res.status(404).send({message:"Не найдено!"})
         try {
             const data = await Discount.destroy({where:{deviceId}})
