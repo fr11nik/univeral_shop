@@ -39,7 +39,6 @@ class BasketController {
     // получить id устройства из body
     const deviceId = req.body.id;
     const amount = req.body.amount || 1;
-    console.log(amount);
     if (deviceId === undefined) {
       res.status(404).send(ApiError.badRequest("device_id is null"));
     }

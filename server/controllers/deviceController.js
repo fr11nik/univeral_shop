@@ -1,6 +1,6 @@
 const uuid = require("uuid");
 const path = require("path");
-const { Device, DeviceInfo, Discount } = require("../models/models");
+const { Device, DeviceInfo, Discount,Brand } = require("../models/models");
 const ApiError = require("../error/ApiError");
 
 class DeviceController {
@@ -43,16 +43,32 @@ class DeviceController {
     let devices;
     if (!brandId && !typeId) {
       devices = await Device.findAndCountAll({
-        include: {
-          model: Discount,
-          required: false, // Если вы хотите получить девайсы, даже если для них нет скидок
-        },
+        include: [
+          {
+            model: Discount,
+            required: false, // Если вы хотите получить девайсы, даже если для них нет скидок}
+          },
+          {
+            model: Brand,
+            attributes:["name"]
+          }
+        ],
         limit,
         offset,
       });
     }
     if (brandId && !typeId) {
       devices = await Device.findAndCountAll({
+        include: [
+          {
+            model: Discount,
+            required: false, // Если вы хотите получить девайсы, даже если для них нет скидок}
+          },
+          {
+            model: Brand,
+            attributes:["name"]
+          }
+        ],
         where: { brandId },
         limit,
         offset,
@@ -60,6 +76,16 @@ class DeviceController {
     }
     if (!brandId && typeId) {
       devices = await Device.findAndCountAll({
+        include: [
+          {
+            model: Discount,
+            required: false, // Если вы хотите получить девайсы, даже если для них нет скидок}
+          },
+          {
+            model: Brand,
+            attributes:["name"]
+          }
+        ],
         where: { typeId },
         limit,
         offset,
@@ -67,6 +93,16 @@ class DeviceController {
     }
     if (brandId && typeId) {
       devices = await Device.findAndCountAll({
+        include: [
+          {
+            model: Discount,
+            required: false, // Если вы хотите получить девайсы, даже если для них нет скидок}
+          },
+          {
+            model: Brand,
+            attributes:["name"]
+          }
+        ],
         where: { typeId, brandId },
         limit,
         offset,
@@ -74,12 +110,14 @@ class DeviceController {
     }
     return res.json(devices);
   }
-
+  
   async getOne(req, res) {
     const { id } = req.params;
     const device = await Device.findOne({
       where: { id },
-      include: [{ model: DeviceInfo, as: "info" }],
+      include: [{ model: DeviceInfo, as: "info" },{ model: Discount,
+        required: false, // Если вы хотите получить девайсы, даже если для них нет скидок
+      }],
     });
     return res.json(device);
   }
