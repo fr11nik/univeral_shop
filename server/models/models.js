@@ -117,10 +117,10 @@ Device.belongsTo(Type);
 Brand.hasMany(Device);
 Device.belongsTo(Brand);
 
-Device.hasMany(Discount);
+Device.hasOne(Discount);
 Discount.belongsTo(Device);
 
-Device.hasMany(DiscountDraft);
+Device.hasOne(DiscountDraft);
 DiscountDraft.belongsTo(Device);
 
 Device.hasMany(Rating);

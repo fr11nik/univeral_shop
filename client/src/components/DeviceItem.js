@@ -4,10 +4,13 @@ import Image from "react-bootstrap/Image";
 import star from '../assets/star.png'
 import {useHistory} from "react-router-dom"
 import {DEVICE_ROUTE} from "../utils/consts";
-import {Button} from "@mui/material";
+import { Container } from '@mui/material';
 const DeviceItem = ({device}) => {
-    const history = useHistory()
-    const discountedPrice = device.price - (device.price * (device.discounts.discountSize / 100));
+    const history = useHistory()   
+    let discountedPrice = 0;
+    if(device.discount){
+        discountedPrice = device.price - (device.price * (device.discount.discountSize / 100));
+    }   
     return (
         <Col md={3} className={"mt-3"} onClick={() => history.push(DEVICE_ROUTE + '/' + device.id)}>
             <Card style={{width: 150, cursor: 'pointer'}} border={"light"}>
@@ -21,10 +24,10 @@ const DeviceItem = ({device}) => {
                 </div>
                 <div>{device.name}</div>
                 <div className="product-price">
-                        {device.discounts.discountSize > 0 ? (
+                        {discountedPrice > 0 ? (
                         <>
-                            <span className="discounted-price">{discountedPrice.toFixed(2)} ₽</span>
-                            <span className="original-price">{device.price} ₽</span>
+                            <span style={{fontWeight:700,color:'#dc3545'}} className="discounted-price">{discountedPrice.toFixed(2)} ₽</span>
+                            <span style={{fontSize:12,textDecoration:'line-through',color:'#8c8c8c',marginLeft:5}} className="original-price">{device.price} ₽</span>
                             
                         </>
                         ) : (
