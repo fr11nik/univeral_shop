@@ -22,6 +22,10 @@ const DevicePage = () => {
             alert(e.response)
         }
     }
+    let discountedPrice = 0;
+    if(device.discount){
+        discountedPrice = device.price - (device.price * (device.discount.discountSize / 100));
+    }  
     return (
         <Container className="mt-3">
             <Row>
@@ -44,7 +48,14 @@ const DevicePage = () => {
                         className="d-flex flex-column align-items-center justify-content-around"
                         style={{width: 300, height: 300, fontSize: 32, border: '5px solid lightgray'}}
                     >
-                        <h3>От: {device.price} руб.</h3>
+                        {discountedPrice > 0 ? (
+                        <>
+                            <span style={{fontWeight:700,color:'#dc3545'}} className="discounted-price">{discountedPrice.toFixed(2)} ₽</span>
+                            <span style={{fontSize:12,textDecoration:'line-through',color:'#8c8c8c',marginLeft:5}} className="original-price">{device.price} ₽</span>                           
+                        </>
+                        ) : (                                  
+                            <span style={{ fontWeight: 'bold' }}>{device.price} ₽</span>                                              
+                        )}
                         <Button onClick={click} variant={"outline-dark"}>Добавить в корзину</Button>
                     </Card>
                 </Col>

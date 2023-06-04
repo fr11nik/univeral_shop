@@ -49,6 +49,20 @@ const Admin = () => {
       >
         Добавить устройство
       </Button>
+      <Button
+        variant={"outline-dark"}
+        className="mt-4 p-2"
+        onClick={() => setDeviceVisible(true)}
+      >
+        Добавить скидку
+      </Button>
+      <Button
+        variant={"outline-danger"}
+        className="mt-4 p-2"
+        onClick={() => setBrandDeleteVisible(true)}
+      >
+        Удалить скидку
+      </Button>
       <CreateBrand show={brandVisible} onHide={() => setBrandVisible(false)} />
       <CreateDevice
         show={deviceVisible}

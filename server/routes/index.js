@@ -7,6 +7,7 @@ const typeRouter = require("./typeRouter");
 const basketRouter = require("./basketRouter");
 const addressRouter = require("./addressRouter");
 const personalInfoRouter = require("./personalInfoRouter");
+const discount = require("./discountRouter");
 router.use("/user", userRouter);
 router.use("/type", typeRouter);
 router.use("/brand", brandRouter);
@@ -14,5 +15,5 @@ router.use("/device", deviceRouter);
 router.use("/basket", basketRouter);
 router.use("/address", addressRouter);
 router.use("/personalInfo", personalInfoRouter);
-
+router.use("/discount",discount);
 module.exports = router;

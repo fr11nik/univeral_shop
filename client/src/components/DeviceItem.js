@@ -34,7 +34,7 @@ const DeviceItem = ({device}) => {
                        <Image width={18} height={18} src={star}/>
                 </Typography>  
             <Typography variant="body2" color="text.secondary">
-            {discountedPrice > 0 ? (
+                        {discountedPrice > 0 ? (
                         <>
                             <span style={{fontWeight:700,color:'#dc3545'}} className="discounted-price">{discountedPrice.toFixed(2)} ₽</span>
                             <span style={{fontSize:12,textDecoration:'line-through',color:'#8c8c8c',marginLeft:5}} className="original-price">{device.price} ₽</span>                           
