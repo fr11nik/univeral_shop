@@ -36,18 +36,7 @@ const Discount = sequelize.define("discount", {
   },
 });
 
-const DiscountDraft = sequelize.define("discountDraft", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  deviceId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  discountSize: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    validate: { min: 1, max: 99 },
-  },
-});
+
 
 const Type = sequelize.define("type", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -120,9 +109,6 @@ Device.belongsTo(Brand);
 Device.hasOne(Discount);
 Discount.belongsTo(Device);
 
-Device.hasOne(DiscountDraft);
-DiscountDraft.belongsTo(Device);
-
 Device.hasMany(Rating);
 Rating.belongsTo(Device);
 
@@ -148,5 +134,4 @@ module.exports = {
   PersonalInfo,
   Address,
   Discount,
-  DiscountDraft,
 };
