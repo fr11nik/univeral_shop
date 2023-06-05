@@ -51,3 +51,7 @@ export const fetchBasketDevices = async () => {
   const { data } = await $authHost.get("api/basket/current");
   return data;
 };
+export const fetchDeviceWithoutDiscount = async () => {
+  const {data} = await $host.get("api/device/without-discount");
+  return data;
+}

@@ -2,42 +2,20 @@ import React, { useState } from 'react';
 import { Button, Modal, Typography } from '@mui/material';
 import { DataGrid } from '@material-ui/data-grid';
 import { createTheme, MuiThemeProvider } from '@material-ui/core/styles';
-
-const DiscountModal = ({ onSelectDevice }) => {
+import {GRID_DEFAULT_LOCALE_TEXT_RU} from "../styles/localeTextConstants" 
+import { fetchDeviceWithoutDiscount } from '../http/deviceAPI';
+import { useEffect } from 'react';
+const DiscountModal = ({ onSelectDevice }) => {  
+    useEffect(() => {
+        fetchDeviceWithoutDiscount().then(data => {
+            setDevices(data);
+        })
+      }, []);
+    const [devices,setDevices] = useState([])
     const [open, setOpen] = useState(false);
     const [selectedDevice, setSelectedDevice] = useState(null);
     const [discountSize, setDiscountSize] = useState(10);
-    const devices = [
-        { id: 1, name: 'Device 1', rating: 4.5, price: 100 },
-        { id: 2, name: 'Device 2', rating: 3.8, price: 150 },
-        { id: 3, name: 'Device 3', rating: 4.2, price: 200 },
-        { id: 4, name: 'Device 4', rating: 4.0, price: 120 },
-        { id: 5, name: 'Device 5', rating: 4.7, price: 180 },
-      ];
-        const russianLocaleText = {
-            noRowsLabel: 'Нет данных',
-            errorOverlayDefaultLabel: 'Произошла ошибка',
-            columnMenuLabel: 'Меню столбца',
-            columnMenuShowColumns: 'Показать столбцы',
-            columnMenuFilter: 'Фильтр',
-            columnMenuHideColumn: 'Скрыть столбец',
-            columnMenuUnsort: 'Сбросить сортировку',
-            columnMenuSortAsc: 'Сортировать по возрастанию',
-            columnMenuSortDesc: 'Сортировать по убыванию',
-            columnsPanelTextFieldLabel: 'Выберите столбцы',
-            columnsPanelTextFieldPlaceholder: 'Столбцы',
-            pageSizeOptionsLabel: 'Строк на странице',
-            paginationFirstPageLabel: 'Первая страница',
-            paginationLastPageLabel: 'Последняя страница',
-            paginationNextPageLabel: 'Следующая страница',
-            paginationPreviousPageLabel: 'Предыдущая страница',
-            toolbarDensity: 'Плотность',
-            toolbarDensityLabel: 'Плотность',
-            toolbarDensityCompact: 'Компактная',
-            toolbarDensityStandard: 'Стандартная',
-            toolbarDensityComfortable: 'Комфортная',
-            
-        };
+    const [selectedRow, setSelectedRow] = useState(null);
     const handleOpen = () => {
       setOpen(true);
     };
@@ -63,9 +41,20 @@ const DiscountModal = ({ onSelectDevice }) => {
     };
     const columns = [
       { field: 'name', headerName: 'Наименование',flex:1  },
-      { field: 'rating', headerName: 'Рейтинг',flex:1 },
       { field: 'price', headerName: 'Цена',flex:1  },
+      { field: 'rating', headerName: 'Рейтинг',flex:1 },
+      {
+        field: 'img',
+        headerName: 'Изображение',
+        width: 150,
+        renderCell: (params) => (
+            <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <img src={params.value} alt="Image" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+          </div>
+        ),
+      },
     ];
+    
     const theme = createTheme({
         palette: {
           primary: {
@@ -85,8 +74,12 @@ const DiscountModal = ({ onSelectDevice }) => {
           },
         },
       });
-    
-    const rows = devices.map((device) => ({ id: device.id, ...device }));
+      const handleSelectionChange = (newSelection) => {
+        // Получить выбранную строку
+        const selectedRow = rows.find((row) => row.id === newSelection[0]);
+        console.log('Выбранная строка:', selectedRow);
+      };  
+    const rows = devices.map((device) => ({ id: device.id,name:device.name,price:device.price,rating:device.rating,img:process.env.REACT_APP_API_URL+device.img })); 
     
     return (
      <MuiThemeProvider theme={theme}>
@@ -104,7 +97,9 @@ const DiscountModal = ({ onSelectDevice }) => {
                 columns={columns}
                 pageSize={5}
                 autoHeight
-                localeText={russianLocaleText}
+                localeText={GRID_DEFAULT_LOCALE_TEXT_RU}
+                checkboxSelection    
+                onSelectionModelChange={handleSelectionChange}
             />
             </div>
             <div className="discount-input">

@@ -121,6 +121,24 @@ class DeviceController {
     });
     return res.json(device);
   }
+  async getDevicesWithoutDiscount(req, res) {
+    try {
+      let devicesWithoutDiscount = await Device.findAll({       
+        include: {
+          model: Discount,
+          required: false,
+        },
+        attributes:["id","name","price","rating","img"]
+      });
+      
+      devicesWithoutDiscount = devicesWithoutDiscount.filter(device => device.discount === null);
+      res.json(devicesWithoutDiscount);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+  
 }
 
 module.exports = new DeviceController();
