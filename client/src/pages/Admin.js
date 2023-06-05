@@ -6,6 +6,7 @@ import CreateType from "../components/modals/CreateType";
 import DeleteType from "../components/modals/DeleteType";
 import DeleteBrand from "../components/modals/DeleteBrand";
 import CreateDiscount from "../components/modals/CreateDiscount";
+import DiscountModal from "../components/modals/CreateDiscount";
 const Admin = () => {
   const [brandVisible, setBrandVisible] = useState(false);
   const [brandDeleteVisible, setBrandDeleteVisible] = useState(false);
@@ -13,6 +14,7 @@ const Admin = () => {
   const [typeDeleteVisible, setDeleteTypeVisible] = useState(false);
   const [deviceVisible, setDeviceVisible] = useState(false);
   const [discountVisible, setDiscountVisible] = useState(false);
+  const [openDiscountModal, setOpenDiscountModal] = useState(false);
 
   return (
     <Container className="d-flex flex-column">
@@ -54,7 +56,7 @@ const Admin = () => {
       <Button
         variant={"outline-dark"}
         className="mt-4 p-2"
-        onClick={() => setDiscountVisible(true)}
+        onClick={() => setOpenDiscountModal(true)}
       >
         Добавить скидку
       </Button>
@@ -82,6 +84,10 @@ const Admin = () => {
       <CreateDiscount
         show={discountVisible}
         onHide={() => setDiscountVisible(true)}
+      />
+      <DiscountModal
+        open={openDiscountModal}
+        onClose={() => setOpenDiscountModal(false)}
       />
     </Container>
   );
