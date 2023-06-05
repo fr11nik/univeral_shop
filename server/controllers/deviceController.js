@@ -1,6 +1,6 @@
 const uuid = require("uuid");
 const path = require("path");
-const { Device, DeviceInfo, Discount,Brand } = require("../models/models");
+const { Device, DeviceInfo, Discount, Brand } = require("../models/models");
 const ApiError = require("../error/ApiError");
 
 class DeviceController {
@@ -50,8 +50,8 @@ class DeviceController {
           },
           {
             model: Brand,
-            attributes:["name"]
-          }
+            attributes: ["name"],
+          },
         ],
         limit,
         offset,
@@ -66,8 +66,8 @@ class DeviceController {
           },
           {
             model: Brand,
-            attributes:["name"]
-          }
+            attributes: ["name"],
+          },
         ],
         where: { brandId },
         limit,
@@ -83,8 +83,8 @@ class DeviceController {
           },
           {
             model: Brand,
-            attributes:["name"]
-          }
+            attributes: ["name"],
+          },
         ],
         where: { typeId },
         limit,
@@ -100,8 +100,8 @@ class DeviceController {
           },
           {
             model: Brand,
-            attributes:["name"]
-          }
+            attributes: ["name"],
+          },
         ],
         where: { typeId, brandId },
         limit,
@@ -110,35 +110,59 @@ class DeviceController {
     }
     return res.json(devices);
   }
-  
+
   async getOne(req, res) {
     const { id } = req.params;
     const device = await Device.findOne({
       where: { id },
-      include: [{ model: DeviceInfo, as: "info" },{ model: Discount,
-        required: false, // Если вы хотите получить девайсы, даже если для них нет скидок
-      }],
+      include: [
+        { model: DeviceInfo, as: "info" },
+        {
+          model: Discount,
+          required: false, // Если вы хотите получить девайсы, даже если для них нет скидок
+        },
+      ],
     });
     return res.json(device);
   }
   async getDevicesWithoutDiscount(req, res) {
     try {
-      let devicesWithoutDiscount = await Device.findAll({       
+      let devicesWithoutDiscount = await Device.findAll({
         include: {
           model: Discount,
           required: false,
         },
-        attributes:["id","name","price","rating","img"]
+        attributes: ["id", "name", "price", "rating", "img"],
       });
-      
-      devicesWithoutDiscount = devicesWithoutDiscount.filter(device => device.discount === null);
+
+      devicesWithoutDiscount = devicesWithoutDiscount.filter(
+        (device) => device.discount === null
+      );
       res.json(devicesWithoutDiscount);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Internal server error' });
+      res.status(500).json({ error: "Internal server error" });
     }
   }
-  
+  async getDevicesWithDiscount(req, res) {
+    try {
+      let devicesWithoutDiscount = await Device.findAll({
+        include: {
+          model: Discount,
+          required: false,
+        },
+        attributes: ["id", "name", "price", "rating", "img"],
+      });
+
+      devicesWithoutDiscount = devicesWithoutDiscount.filter(
+        (device) => device.discount !== null
+      );
+      res.json(devicesWithoutDiscount);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
 }
 
 module.exports = new DeviceController();

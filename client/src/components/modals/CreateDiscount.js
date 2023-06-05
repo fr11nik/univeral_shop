@@ -25,6 +25,8 @@ const DiscountModal = ({ open, onClose }) => {
     if (selectedDevice) {
       const deviceWithDiscount = { deviceId: selectedDevice.id, discountSize };
       await createDiscountDevice(deviceWithDiscount);
+      alert("Скидка успешно добавлена");
+      onClose();
     } else alert("Требуется выбрать один элемент");
   };
   const columns = [
@@ -54,7 +56,6 @@ const DiscountModal = ({ open, onClose }) => {
       ),
     },
   ];
-
   const theme = createTheme({
     palette: {
       primary: {

@@ -52,6 +52,10 @@ export const fetchBasketDevices = async () => {
   return data;
 };
 export const fetchDeviceWithoutDiscount = async () => {
-  const {data} = await $host.get("api/device/without-discount");
+  const { data } = await $host.get("api/device/without-discount");
   return data;
-}
+};
+export const fetchDeviceWithDiscount = async () => {
+  const { data } = await $host.get("api/device/with-discount");
+  return data;
+};

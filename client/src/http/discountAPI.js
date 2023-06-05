@@ -7,3 +7,6 @@ export const createDiscountDevice = async ({ deviceId, discountSize }) => {
   });
   return data;
 };
+export const deleteDiscountDevice = async (deviceId) => {
+  await $authHost.delete("api/discount/", { data: deviceId });
+};
