@@ -7,12 +7,14 @@ import {
   PROFILE_ROUTE,
   REGISTRATION_ROUTE,
   SHOP_ROUTE,
+  TEMP_ROUTE,
 } from "./utils/consts";
 import Basket from "./pages/Basket";
 import Shop from "./pages/Shop";
 import Auth from "./pages/Auth";
 import DevicePage from "./pages/DevicePage";
 import Profile from "./pages/Profile";
+import Temp from "./pages/Temp";
 
 export const authRoutes = [
   {
@@ -46,4 +48,8 @@ export const publicRoutes = [
     path: DEVICE_ROUTE + "/:id",
     Component: DevicePage,
   },
+  {
+    path: TEMP_ROUTE,
+    Component:Temp
+  }
 ];

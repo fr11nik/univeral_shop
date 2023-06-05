@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Form, Button } from "react-bootstrap";
 import { createType } from "../../http/deviceAPI";
-import { DataGrid } from '@mui/x-data-grid';
 const CreateType = ({ show, onHide }) => {
   const [value, setValue] = useState("");
   const [discountSize,setDiscountValue] = useState(0);
