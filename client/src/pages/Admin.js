@@ -8,6 +8,7 @@ import DeleteBrand from "../components/modals/DeleteBrand";
 import CreateDiscount from "../components/modals/CreateDiscount";
 import DiscountModal from "../components/modals/CreateDiscount";
 import DeleteDiscountModal from "../components/modals/DeleteDiscout";
+import DeleteDeviceModal from "../components/modals/DeleteDevice";
 const Admin = () => {
   const [brandVisible, setBrandVisible] = useState(false);
   const [brandDeleteVisible, setBrandDeleteVisible] = useState(false);
@@ -17,23 +18,9 @@ const Admin = () => {
   const [discountVisible, setDiscountVisible] = useState(false);
   const [openDiscountModal, setOpenDiscountModal] = useState(false);
   const [openDeleteDiscountModal, setDeleteOpenDiscountModal] = useState(false);
-
+  const [openDeleteDeviceModal,setOpenDeleteDeviceModal] = useState(false);
   return (
     <Container className="d-flex flex-column">
-      <Button
-        variant={"outline-dark"}
-        className="mt-4 p-2"
-        onClick={() => setTypeVisible(true)}
-      >
-        Добавить тип
-      </Button>
-      <Button
-        variant={"outline-danger"}
-        className="mt-4 p-2"
-        onClick={() => setDeleteTypeVisible(true)}
-      >
-        Удалить тип
-      </Button>
       <Button
         variant={"outline-dark"}
         className="mt-4 p-2"
@@ -51,16 +38,38 @@ const Admin = () => {
       <Button
         variant={"outline-dark"}
         className="mt-4 p-2"
+        onClick={() => setTypeVisible(true)}
+      >
+        Добавить тип
+      </Button>
+      <Button
+        variant={"outline-danger"}
+        className="mt-4 p-2"
+        onClick={() => setDeleteTypeVisible(true)}
+      >
+        Удалить тип
+      </Button>
+      
+      <Button
+        variant={"outline-dark"}
+        className="mt-4 p-2"
         onClick={() => setDeviceVisible(true)}
       >
-        Добавить устройство
+        Добавить товар
+      </Button>
+      <Button
+        variant={"outline-danger"}
+        className="mt-4 p-2"
+        onClick={() => setOpenDeleteDeviceModal(true)}
+      >
+        Удалить товар
       </Button>
       <Button
         variant={"outline-dark"}
         className="mt-4 p-2"
         onClick={() => setOpenDiscountModal(true)}
       >
-        Добавить скидку
+        Добавить скидку на товар
       </Button>
       <Button
         variant={"outline-danger"}
@@ -95,6 +104,7 @@ const Admin = () => {
         open={openDeleteDiscountModal}
         onClose={() => setDeleteOpenDiscountModal(false)}
       />
+      <DeleteDeviceModal open={openDeleteDeviceModal} onClose={() => setDeleteOpenDiscountModal(false)}/>
     </Container>
   );
 };
