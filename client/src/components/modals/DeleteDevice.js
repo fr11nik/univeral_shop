@@ -3,24 +3,24 @@ import { Button, Modal, Typography } from "@mui/material";
 import { DataGrid } from "@material-ui/data-grid";
 import { createTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import { GRID_DEFAULT_LOCALE_TEXT_RU } from "../../styles/localeTextConstants";
-import { fetchDeviceWithDiscount } from "../../http/deviceAPI";
+import { deleteDevices } from "../../http/deviceAPI";
 import { useEffect } from "react";
 import Container from "@mui/material/Container";
 import { fetchDevices } from "../../http/deviceAPI";
 const DiscountModal = ({ open, onClose }) => {
-  
   const [devices, setDevices] = useState({});
   const [selectedDevices, setSelectedDevices] = useState([]);
   useEffect(() => {
-    fetchDevices(null, null, 1, 2).then(data => {
-        setDevices(data.rows);
+    fetchDevices(null, null, 1, 100).then((data) => {
+      setDevices(data.rows);
     });
   }, []);
   const handleDeleteDiscount = async () => {
-    //   await deleteDiscountDevice(deviceWithDiscount);
-    //   alert("Скидка успешно удалена");
-    //   onClose();
-    console.log(selectedDevices);
+    const res = await deleteDevices(selectedDevices);
+    if (res.status == 200) {
+      alert("Товары успешно удалены!");
+    } else alert("Ошибка сервера, повторите позднее");
+    onClose();
   };
   const columns = [
     { field: "name", headerName: "Наименование", flex: 1 },
@@ -68,26 +68,21 @@ const DiscountModal = ({ open, onClose }) => {
       },
     },
   });
-  const handleSelectionChange = (newSelection) => {
-    //Получить выбранную строку
-    const selectedRows = rows.filter((row) => row.id === newSelection[0]);
-    console.log(selectedRows)
-    setSelectedDevices(selectedRows);
+  const handleSelectionChange = (selectionModel) => {
+    setSelectedDevices(selectionModel);
   };
   var rows = [];
-    if(devices != null){
-        if(Object.prototype.toString.call(devices) === "[object Array]"){
-            rows = devices.map((device) => ({
-                id: device.id,
-                name: device.name,
-                price: device.price,
-                rating: device.rating,
-                img: process.env.REACT_APP_API_URL + device.img,
-            }));
-        }
-        
-        
+  if (devices != null) {
+    if (Object.prototype.toString.call(devices) === "[object Array]") {
+      rows = devices.map((device) => ({
+        id: device.id,
+        name: device.name,
+        price: device.price,
+        rating: device.rating,
+        img: process.env.REACT_APP_API_URL + device.img,
+      }));
     }
+  }
   return (
     <MuiThemeProvider theme={theme}>
       <Modal open={open} onClose={onClose} className="modal-container md-24">
@@ -112,7 +107,7 @@ const DiscountModal = ({ open, onClose }) => {
               color="error"
               onClick={handleDeleteDiscount}
             >
-              Удалить скидку
+              Удалить товар(-ы)
             </Button>
           </div>
         </Container>

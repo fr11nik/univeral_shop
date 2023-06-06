@@ -2,7 +2,7 @@ const uuid = require("uuid");
 const path = require("path");
 const { Device, DeviceInfo, Discount, Brand } = require("../models/models");
 const ApiError = require("../error/ApiError");
-
+const { Op } = require("sequelize");
 class DeviceController {
   async create(req, res, next) {
     try {
@@ -34,7 +34,22 @@ class DeviceController {
       next(ApiError.badRequest(e.message));
     }
   }
-
+  async delete(req, res) {
+    const idsToDelete = req.body;
+    await Device.destroy({
+      where: {
+        id: {
+          [Op.in]: idsToDelete,
+        },
+      },
+    })
+      .then((rowsDeleted) => {
+        res.send({ message: "успешно!" });
+      })
+      .catch((error) => {
+        res.status(401).send({ error });
+      });
+  }
   async getAll(req, res) {
     let { brandId, typeId, limit, page } = req.query;
     page = page || 1;

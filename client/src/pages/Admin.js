@@ -18,7 +18,7 @@ const Admin = () => {
   const [discountVisible, setDiscountVisible] = useState(false);
   const [openDiscountModal, setOpenDiscountModal] = useState(false);
   const [openDeleteDiscountModal, setDeleteOpenDiscountModal] = useState(false);
-  const [openDeleteDeviceModal,setOpenDeleteDeviceModal] = useState(false);
+  const [openDeleteDeviceModal, setOpenDeleteDeviceModal] = useState(false);
   return (
     <Container className="d-flex flex-column">
       <Button
@@ -49,7 +49,7 @@ const Admin = () => {
       >
         Удалить тип
       </Button>
-      
+
       <Button
         variant={"outline-dark"}
         className="mt-4 p-2"
@@ -104,7 +104,10 @@ const Admin = () => {
         open={openDeleteDiscountModal}
         onClose={() => setDeleteOpenDiscountModal(false)}
       />
-      <DeleteDeviceModal open={openDeleteDeviceModal} onClose={() => setDeleteOpenDiscountModal(false)}/>
+      <DeleteDeviceModal
+        open={openDeleteDeviceModal}
+        onClose={() => setOpenDeleteDeviceModal(false)}
+      />
     </Container>
   );
 };

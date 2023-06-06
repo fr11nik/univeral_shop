@@ -6,5 +6,5 @@ router.get("/with-discount", deviceController.getDevicesWithDiscount);
 router.post("/", deviceController.create);
 router.get("/", deviceController.getAll);
 router.get("/:id", deviceController.getOne);
-
+router.delete("/", deviceController.delete);
 module.exports = router;

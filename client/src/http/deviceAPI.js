@@ -59,3 +59,6 @@ export const fetchDeviceWithDiscount = async () => {
   const { data } = await $host.get("api/device/with-discount");
   return data;
 };
+export const deleteDevices = async (ids) => {
+  return await $host.delete("api/device/", { data: ids });
+};
