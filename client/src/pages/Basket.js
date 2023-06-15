@@ -42,7 +42,6 @@ const Basket = observer(() => {
           <Card.Body>
             <Card.Title>{item.device.name}</Card.Title>
             <Card.Text>Price: {item.device.price}</Card.Text>
-            <Card.Text>Amount: {item.amount}</Card.Text>
             <Button id={item.id} onClick={Delete} variant="outline-danger">
               Удалить
             </Button>
@@ -53,7 +52,3 @@ const Basket = observer(() => {
   );
 });
 export default Basket;
-
-
-
-  

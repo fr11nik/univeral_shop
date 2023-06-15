@@ -67,6 +67,7 @@ class BasketController {
   }
   async delete(req, res) {
     const id = req.body.id;
+
     BasketDevice.destroy({
       where: {
         id,
@@ -87,5 +88,4 @@ class BasketController {
       });
   }
 }
-
 module.exports = new BasketController();

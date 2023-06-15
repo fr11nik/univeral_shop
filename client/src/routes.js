@@ -10,6 +10,7 @@ import {
   TEMP_ROUTE,
 } from "./utils/consts";
 import Basket from "./pages/Basket";
+import Basket1 from "./pages/Basket1";
 import Shop from "./pages/Shop";
 import Auth from "./pages/Auth";
 import DevicePage from "./pages/DevicePage";
@@ -23,6 +24,10 @@ export const authRoutes = [
   },
   {
     path: BASKET_ROUTE,
+    Component: Basket1,
+  },
+  {
+    path: "/order",
     Component: Basket,
   },
   {
@@ -50,6 +55,6 @@ export const publicRoutes = [
   },
   {
     path: TEMP_ROUTE,
-    Component:Temp
-  }
+    Component: Temp,
+  },
 ];
