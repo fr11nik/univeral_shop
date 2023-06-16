@@ -1,6 +1,6 @@
 const uuid = require("uuid");
 const path = require("path");
-const { Basket, Device, BasketDevice } = require("../models/models");
+const { Basket, Device, BasketDevice, Discount } = require("../models/models");
 const ApiError = require("../error/ApiError");
 
 class BasketController {
@@ -25,6 +25,13 @@ class BasketController {
                 "img",
                 "typeId",
                 "brandId",
+              ],
+              include: [
+                {
+                  model: Discount,
+                  required: false,
+                  attributes: ["discountSize"],
+                },
               ],
             },
           ],

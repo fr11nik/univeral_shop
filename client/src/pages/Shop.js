@@ -29,7 +29,6 @@ const Shop = observer(() => {
       device.page,
       2
     ).then((data) => {
-      console.log(data.rows);
       device.setDevices(data.rows);
       device.setTotalCount(data.count);
     });

@@ -12,6 +12,18 @@ const Basket = observer(() => {
   const { basket } = useContext(Context);
   const history = useHistory();
   const [loading, setLoading] = useState(false);
+  var totalSum = 0;
+
+  basket.devices.map((item) => {
+    if (item.device.discount) {
+      let discountedPrice = 0;
+      discountedPrice =
+        item.device.price -
+        item.device.price * (item.device.discount.discountSize / 100);
+      totalSum += discountedPrice;
+    } else totalSum += item.device.price;
+  });
+
   const orderCount =
     basket.totalCount == 1
       ? basket.totalCount + " товар"
@@ -43,7 +55,7 @@ const Basket = observer(() => {
       </div>
       <UserOrders orders={basket.devices} onDelete={Delete} />
       <Box className="checkout_container">
-        <div>Итоговая цена: 110 000 ₽</div>
+        <div>Итоговая цена: {totalSum} ₽</div>
         <div>
           <Button
             sx={{

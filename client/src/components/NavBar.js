@@ -26,7 +26,6 @@ const NavBar = observer(() => {
   const history = useHistory();
   useEffect(() => {
     fetchBasketDevices().then((data) => {
-      console.log(data.basket_devices);
       basket.setDevices(data.basket_devices);
       basket.setTotalCount(data.basket_devices.length);
     });
