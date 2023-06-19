@@ -6,4 +6,5 @@ router.get("/current", authMiddleware, personalInfoController.getOne);
 router.post("/", authMiddleware, personalInfoController.create);
 router.delete("/", authMiddleware, personalInfoController.delete);
 router.put("/", authMiddleware, personalInfoController.update);
+router.get("/verify", authMiddleware, personalInfoController.verify);
 module.exports = router;

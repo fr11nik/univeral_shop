@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Container, Paper, Button, Box, TextField } from "@mui/material";
+import { Col, Form, Row } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 import { Context } from "../index";
 import { fetchAddress, updateAddress } from "../http/addressAPI";
 import { fetchPersonalInfo, updatePersonalInfo } from "../http/personalInfoAPI";
 const Profile = observer(() => {
   const { address, personalInfo } = useContext(Context);
-  const [error, setError] = useState("");
+  const [error, setError] = useState("Обязательное поле!");
   const [userInfo, setUserInfo] = useState({
     lastName: "",
     firstName: "",
@@ -52,7 +53,9 @@ const Profile = observer(() => {
       ...prevUserInfo,
       [name]: value,
     }));
-    setError(value.length < 18 ? "Неполный номер телефона" : "");
+    setError(
+      value.length < 18 ? "Неполный номер телефона" : "Обязательное поле!"
+    );
   };
   const handleUserChange = (e) => {
     const { name, value } = e.target;
@@ -85,145 +88,144 @@ const Profile = observer(() => {
     alert(res.message);
   };
   return (
-    <Container>
-      <Row>
-        <Col>
-          <h1>Личный кабинет</h1>
-          <Form
-            id="personal_info"
-            onSubmit={handlePersonalInfoSubmit}
-            style={{
-              padding: "20px",
-              marginBottom: "20px",
-            }}
-          >
-            <h2>Информация о пользователе</h2>
-            <Form.Group controlId="formLastName">
-              <Form.Label>Фамилия</Form.Label>
-              <Form.Control
-                type="text"
-                name="lastName"
-                required
-                value={userInfo.lastName}
-                onChange={handleUserChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="formFirstName">
-              <Form.Label>Имя</Form.Label>
-              <Form.Control
-                type="text"
-                name="firstName"
-                required
-                value={userInfo.firstName}
-                onChange={handleUserChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="formPatronymic">
-              <Form.Label>Отчество</Form.Label>
-              <Form.Control
-                type="text"
-                name="patronymic"
-                value={userInfo.patronymic}
-                onChange={handleUserChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="formPhoneNumber">
-              <Form.Label>Номер телефона</Form.Label>
-              <Form.Control
-                type="text"
-                required
-                name="phoneNumber"
-                value={userInfo.phoneNumber}
-                onChange={handlePhoneNumberChange}
-                onKeyDown={handlePhoneNumberKeyDown}
-                isInvalid={error !== ""}
-              />
-              <Form.Control.Feedback type="invalid">
-                {error}
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              Сохранить
-            </Button>
-          </Form>
+    <Container sx={{ marginTop: 5 }}>
+      <h1>Личный кабинет</h1>
+      <Box
+        component="form"
+        id="personal_info"
+        onSubmit={handlePersonalInfoSubmit}
+        sx={{ marginTop: 2 }}
+      >
+        <Container
+          id="personalInfo_container"
+          component={Paper}
+          sx={{ padding: 2 }}
+        >
+          <h5 style={{ marginBottom: 20 }}>Информация о пользователе</h5>
+          <Box>
+            <TextField
+              label="Фамилия"
+              name="lastName"
+              value={userInfo.lastName}
+              onChange={handleUserChange}
+              required
+              fullWidth
+              helperText={"Обязательное поле!"}
+            />
+            <TextField
+              label="Имя"
+              name="firstName"
+              value={userInfo.firstName}
+              onChange={handleUserChange}
+              required
+              fullWidth
+              helperText={"Обязательное поле!"}
+            />
+          </Box>
+          <Box>
+            <TextField
+              label="Отчество"
+              name="patronymic"
+              value={userInfo.patronymic}
+              onChange={handleUserChange}
+              fullWidth
+            />
 
-          <Form onSubmit={handleAddressSubmit} style={{ padding: "20px" }}>
-            <h2>Адрес</h2>
-            <Form.Group controlId="formCity">
-              <Form.Label>Город</Form.Label>
-              <Form.Control
-                type="text"
-                name="city"
-                value={addressInfo.city}
-                required
-                onChange={handleAddressChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="formStreet">
-              <Form.Label>Улица</Form.Label>
-              <Form.Control
-                type="text"
-                name="street"
-                required
-                value={addressInfo.street}
-                onChange={handleAddressChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="formHouse">
-              <Form.Label>Дом</Form.Label>
-              <Form.Control
-                type="text"
-                name="house"
-                required
-                value={addressInfo.house}
-                onChange={handleAddressChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="formEntrance">
-              <Form.Label>Подъезд</Form.Label>
-              <Form.Control
-                type="text"
-                required
-                name="entrance"
-                value={addressInfo.entrance}
-                onChange={handleAddressChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="formFloor">
-              <Form.Label>Этаж</Form.Label>
-              <Form.Control
-                type="text"
-                name="floor"
-                required
-                value={addressInfo.floor}
-                onChange={handleAddressChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="formApartment">
-              <Form.Label>Квартира</Form.Label>
-              <Form.Control
-                type="text"
-                name="apartment"
-                required
-                value={addressInfo.apartment}
-                onChange={handleAddressChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="formComment">
-              <Form.Label>Комментарий</Form.Label>
-              <Form.Control
-                type="text"
-                name="comment"
-                value={addressInfo.comment}
-                onChange={handleAddressChange}
-              />
-            </Form.Group>
-            <Button variant="primary" type="submit">
+            <TextField
+              label="Номер телефона"
+              name="phoneNumber"
+              value={userInfo.phoneNumber}
+              onChange={handlePhoneNumberChange}
+              fullWidth
+              onKeyDown={handlePhoneNumberKeyDown}
+              color={error !== "" ? "error" : "primary"}
+              isInvalid={error !== ""}
+              helperText={error}
+              required
+            />
+          </Box>
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <Button variant="contained" color="primary" type="submit">
               Сохранить
             </Button>
-          </Form>
-        </Col>
-      </Row>
+          </div>
+        </Container>
+      </Box>
+
+      <Box type="form" onSubmit={handleAddressSubmit} sx={{ marginTop: 2 }}>
+        <Container
+          id="personalInfo_container"
+          component={Paper}
+          sx={{ marginTop: 5, paddingBottom: "16px", marginBottom: "30px" }}
+        >
+          <h5 style={{ marginBottom: 20 }}>Информация о доставке</h5>
+          <Box>
+            <TextField
+              name="city"
+              label="Город"
+              value={addressInfo.city}
+              required
+              fullWidth
+              onChange={handleAddressChange}
+            />
+
+            <TextField
+              name="street"
+              label="Улица"
+              required
+              value={addressInfo.street}
+              onChange={handleAddressChange}
+              fullWidth
+            />
+            <TextField
+              name="house"
+              label="Дом"
+              required
+              value={addressInfo.house}
+              onChange={handleAddressChange}
+            />
+
+            <TextField
+              required
+              name="entrance"
+              label="Подъезд"
+              value={addressInfo.entrance}
+              onChange={handleAddressChange}
+            />
+
+            <TextField
+              name="floor"
+              label="Этаж"
+              value={addressInfo.floor}
+              onChange={handleAddressChange}
+            />
+
+            <TextField
+              name="apartment"
+              label="Квартира"
+              value={addressInfo.apartment}
+              onChange={handleAddressChange}
+            />
+
+            <TextField
+              multiline
+              name="comment"
+              label="Комментарий"
+              value={addressInfo.comment}
+              onChange={handleAddressChange}
+              fullWidth
+              helperText={
+                "В данное поле впишите всю дополнительную информацию которая будет полезна к заказу!"
+              }
+            />
+          </Box>
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <Button variant="contained" color="primary" type="submit">
+              Сохранить
+            </Button>
+          </div>
+        </Container>
+      </Box>
     </Container>
   );
 });

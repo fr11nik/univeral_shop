@@ -1,6 +1,6 @@
 const uuid = require("uuid");
 const path = require("path");
-const { PersonalInfo } = require("../models/models");
+const { PersonalInfo, Address, User } = require("../models/models");
 const ApiError = require("../error/ApiError");
 
 class PersonalInfoController {
@@ -18,6 +18,7 @@ class PersonalInfoController {
   }
   async create(req, res) {}
   async delete(req, res) {}
+
   async update(req, res) {
     const userId = req.user.id;
     const personalInfoData = {
@@ -32,6 +33,30 @@ class PersonalInfoController {
     } catch (error) {
       res.status(200).send({ err });
     }
+  }
+  async verify(req, res) {
+    const userId = req.user.id;
+    const userData = await User.findOne({
+      where: { id: userId },
+      attributes: [],
+      include: [
+        {
+          model: Address,
+        },
+        {
+          model: PersonalInfo,
+        },
+      ],
+    });
+    const isValid =
+      userData.personal_info.firstName.length != 0 &&
+      userData.personal_info.lastName.length != 0 &&
+      userData.personal_info.phoneNumber.length != 0 &&
+      userData.address.city.length != 0 &&
+      userData.address.street.length != 0 &&
+      userData.address.house.length != 0 &&
+      userData.address.entrance.length != 0;
+    res.send(isValid);
   }
 }
 module.exports = new PersonalInfoController();

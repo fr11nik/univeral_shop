@@ -7,3 +7,6 @@ export const updatePersonalInfo = async (personalInfo) => {
   const { data } = await $authHost.put("api/personalInfo/", personalInfo);
   return data;
 };
+export const verify = async () => {
+  return await $authHost.get("api/personalInfo/verify");
+};

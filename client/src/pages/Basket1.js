@@ -7,13 +7,18 @@ import { deleteBasketDevice } from "../http/basketAPI";
 import UserOrders from "../components/BasketTable";
 import { Container, Typography, Box, Button } from "@mui/material";
 import { Spinner } from "react-bootstrap";
-
+import { SHOP_ROUTE } from "../utils/consts";
+import { verify } from "../http/personalInfoAPI";
 const Basket = observer(() => {
   const { basket } = useContext(Context);
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   var totalSum = 0;
-
+  const handleCheckout = () => {
+    verify().then((res) => {
+      alert(JSON.stringify(res.data));
+    });
+  };
   basket.devices.map((item) => {
     if (item.device.discount) {
       let discountedPrice = 0;
@@ -63,12 +68,14 @@ const Basket = observer(() => {
               color: "#343a40",
               borderRadius: "0px",
             }}
+            onClick={() => history.push(SHOP_ROUTE)}
             size="large"
             variant="outlined"
           >
             Продолжить покупки
           </Button>
           <Button
+            onClick={handleCheckout}
             variant="contained"
             size="large"
             sx={{ borderRadius: "0px", backgroundColor: "#343a40" }}
