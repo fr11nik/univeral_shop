@@ -61,7 +61,7 @@ class OrderController {
     }
     for (let i = 0; i < ordersItems.length; i++) {
       var items = await ordersItems[i].getDevices();
-      ordersArr.push(items);
+      ordersArr.push({ orderDetails: ordersItems[i], devices: items });
     }
     res.send(ordersArr);
   }

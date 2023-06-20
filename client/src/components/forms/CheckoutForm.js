@@ -17,7 +17,7 @@ const CheckoutForm = observer(() => {
     if (!stripe || !elements) {
       return;
     }
-    console.log(stripe, elements);
+
     setIsProcessing(true);
 
     const { error, paymentIntent } = await stripe.confirmPayment({

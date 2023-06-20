@@ -27,7 +27,7 @@ const Profile = observer(() => {
       setOrder(data);
     });
   }, []);
-  console.log(order);
+
   const handleAddressChange = async (e) => {
     const { name, value } = e.target;
     setAddressInfo((prevAddressInfo) => ({
