@@ -1,8 +1,15 @@
-const uuid = require("uuid");
-const path = require("path");
-const { PersonalInfo, Address, User } = require("../models/models");
-const ApiError = require("../error/ApiError");
+const {
+  PersonalInfo,
+  Address,
+  User,
+  Basket,
+  Device,
+  BasketDevice,
+  Discount,
+} = require("../models/models");
 
+const ApiError = require("../error/ApiError");
+const validator = require("validator");
 class PersonalInfoController {
   async getOne(req, res) {
     const userId = req.user.id;
@@ -42,21 +49,45 @@ class PersonalInfoController {
       include: [
         {
           model: Address,
+          attributes: {
+            exclude: [
+              "createdAt",
+              "updatedAt",
+              "userId",
+              "floor",
+              "apartment",
+              "comment",
+            ],
+          },
         },
         {
           model: PersonalInfo,
+          attributes: {
+            exclude: [
+              "createdAt",
+              "updatedAt",
+              "userId",
+              "phoneNumber",
+              "patronymic",
+            ],
+          },
         },
       ],
+      raw: true,
     });
-    const isValid =
-      userData.personal_info.firstName.length != 0 &&
-      userData.personal_info.lastName.length != 0 &&
-      userData.personal_info.phoneNumber.length != 0 &&
-      userData.address.city.length != 0 &&
-      userData.address.street.length != 0 &&
-      userData.address.house.length != 0 &&
-      userData.address.entrance.length != 0;
-    res.send(isValid);
+    for (let [key, value] of Object.entries(userData)) {
+      if (typeof value === "string") {
+        userData[key] = value.replace(/\s/g, "");
+        if (userData[key].length === 0) {
+          res.send(false);
+          return;
+        }
+      } else if (value === -1) {
+        res.send(false);
+        return;
+      }
+    }
+    res.send(true);
   }
 }
 module.exports = new PersonalInfoController();

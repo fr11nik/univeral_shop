@@ -20,7 +20,9 @@
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^6.4.0",
-    "uuid": "^8.3.2"
+    "stripe": "^12.9.0",
+    "uuid": "^8.3.2",
+    "validator": "^13.9.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.7",

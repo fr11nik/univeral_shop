@@ -1,53 +1,99 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Card, Container, Spinner, Button } from "react-bootstrap";
-import { fetchBasketDevices } from "../http/deviceAPI";
+import React, { useContext } from "react";
+
 import { observer } from "mobx-react-lite";
 import { Context } from "../index";
 import { useHistory } from "react-router-dom";
-import { BASKET_ROUTE } from "../utils/consts";
 import { deleteBasketDevice } from "../http/basketAPI";
+import UserOrders from "../components/BasketTable";
+import { Container, Typography, Box, Button } from "@mui/material";
+
+import { ORDER_ROUTE, PROFILE_ROUTE, SHOP_ROUTE } from "../utils/consts";
+import { verify } from "../http/personalInfoAPI";
 const Basket = observer(() => {
-  const { device } = useContext(Context);
+  const { basket } = useContext(Context);
   const history = useHistory();
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    fetchBasketDevices().then((data) => {
-      device.setDevices(data.basket_devices);
-      setLoading(false);
+
+  var totalSum = 0;
+  const handleCheckout = () => {
+    verify().then((res) => {
+      const isValid = res.data;
+      if (!isValid) {
+        alert(
+          "Ошибка заполнения персональных данных для доставки, или персональных данных"
+        );
+        history.push(PROFILE_ROUTE);
+        return;
+      }
+
+      history.push(ORDER_ROUTE);
+      return;
     });
-  }, []);
+  };
+  basket.devices.forEach((item) => {
+    if (item.device.discount) {
+      let discountedPrice = 0;
+      discountedPrice =
+        item.device.price -
+        item.device.price * (item.device.discount.discountSize / 100);
+      totalSum += discountedPrice;
+    } else totalSum += item.device.price;
+  });
+  const orderCount =
+    basket.totalCount === 1
+      ? basket.totalCount + " товар"
+      : basket.totalCount + " товара";
   const Delete = async (element) => {
+    const targetID =
+      element.target.tagName === "path"
+        ? element.target.parentNode.id
+        : element.target.id;
     try {
-      await deleteBasketDevice(element.target.id);
+      await deleteBasketDevice(targetID);
       alert("Товар удален из корзины");
-      history.push(BASKET_ROUTE);
+      basket.setTotalCount(basket.totalCount - 1);
     } catch (e) {
-      alert(e.response);
+      alert(e.message);
     }
   };
-  if (loading) {
-    return <Spinner animation={"grow"} />;
-  }
+
   return (
-    <Container>
-      {device.devices.map((item) => (
-        <Card key={item.id}>
-          <Card.Img
-            variant="top"
-            src={
-              item.deviceId && process.env.REACT_APP_API_URL + item.device.img
-            }
-            style={{ height: "200px", objectFit: "contain" }}
-          />
-          <Card.Body>
-            <Card.Title>{item.device.name}</Card.Title>
-            <Card.Text>Price: {item.device.price}</Card.Text>
-            <Button id={item.id} onClick={Delete} variant="outline-danger">
-              Удалить
+    <Container maxWidth="xl">
+      <div className="basket_header">
+        <Typography variant="h4">Корзина</Typography>
+        <div>
+          <div>В вашей корзине:</div> &nbsp; {orderCount}
+        </div>
+      </div>
+      <UserOrders orders={basket.devices} onDelete={Delete} />
+      <Box className="checkout_container">
+        <div>Итоговая цена: {totalSum} ₽</div>
+        <div>
+          <Button
+            sx={{
+              borderColor: "#343a40",
+              color: "#343a40",
+              borderRadius: "0px",
+            }}
+            onClick={() => history.push(SHOP_ROUTE)}
+            size="large"
+            variant="outlined"
+          >
+            Продолжить покупки
+          </Button>
+          {totalSum !== 0 ? (
+            <Button
+              onClick={handleCheckout}
+              variant="contained"
+              size="large"
+              sx={{ borderRadius: "0px", backgroundColor: "#343a40" }}
+            >
+              Оформить заказ
             </Button>
-          </Card.Body>
-        </Card>
-      ))}
+          ) : (
+            <></>
+          )}
+        </div>
+      </Box>
     </Container>
   );
 });

@@ -4,7 +4,7 @@ import Tooltip from "@mui/material/Tooltip";
 
 const IconButtonWithHelpText = ({
   iconComponent: Icon,
-  onClick: onClick,
+  onClick,
   helpText,
   ...props
 }) => {

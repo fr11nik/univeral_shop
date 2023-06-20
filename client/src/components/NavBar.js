@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Context } from "../index";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import Badge from "@mui/material/Badge";
+import { Badge } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import IconButtonWithHelpText from "../components/IconButtonTooltip";
@@ -10,6 +10,7 @@ import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import { fetchBasketDevices } from "../http/deviceAPI";
 import {
   ADMIN_ROUTE,
@@ -17,6 +18,7 @@ import {
   LOGIN_ROUTE,
   SHOP_ROUTE,
   PROFILE_ROUTE,
+  ORDER_LIST_ROUTE,
 } from "../utils/consts";
 import { observer } from "mobx-react-lite";
 import Container from "react-bootstrap/Container";
@@ -46,8 +48,8 @@ const NavBar = observer(() => {
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
-        <NavLink style={{ color: "white" }} to={SHOP_ROUTE}>
-          КупиДевайс
+        <NavLink style={{ color: "white", fontWeight: 700 }} to={SHOP_ROUTE}>
+          SKIN.WELL
         </NavLink>
         {user.isAuth ? (
           <Nav className="ml-auto" style={{ color: "white" }}>
@@ -58,19 +60,31 @@ const NavBar = observer(() => {
               iconComponent={BadgetBasket}
               onClick={() => history.push(BASKET_ROUTE)}
             />
-            <IconButtonWithHelpText
-              sx={{ color: "white" }}
-              size="medium"
-              helpText="Админ панель"
-              iconComponent={AdminPanelSettingsIcon}
-              onClick={() => history.push(ADMIN_ROUTE)}
-            />
+            {user.isAdmin ? (
+              <IconButtonWithHelpText
+                sx={{ color: "white" }}
+                size="medium"
+                helpText="Админ панель"
+                iconComponent={AdminPanelSettingsIcon}
+                onClick={() => history.push(ADMIN_ROUTE)}
+              />
+            ) : (
+              <></>
+            )}
+
             <IconButtonWithHelpText
               sx={{ color: "white" }}
               size="medium"
               helpText="Личный кабинет"
               iconComponent={AccountCircleIcon}
               onClick={() => history.push(PROFILE_ROUTE)}
+            />
+            <IconButtonWithHelpText
+              sx={{ color: "white" }}
+              size="medium"
+              helpText="Мои заказы"
+              iconComponent={ShoppingBasketIcon}
+              onClick={() => history.push(ORDER_LIST_ROUTE)}
             />
             <IconButtonWithHelpText
               sx={{ color: "white" }}

@@ -8,15 +8,17 @@ import {
   REGISTRATION_ROUTE,
   SHOP_ROUTE,
   TEMP_ROUTE,
+  ORDER_ROUTE,
+  ORDER_LIST_ROUTE,
 } from "./utils/consts";
 import Basket from "./pages/Basket";
-import Basket1 from "./pages/Basket1";
 import Shop from "./pages/Shop";
 import Auth from "./pages/Auth";
 import DevicePage from "./pages/DevicePage";
 import Profile from "./pages/Profile";
 import Temp from "./pages/Temp";
-
+import Order from "./pages/Order";
+import MyOrders from "./pages/MyOrders";
 export const authRoutes = [
   {
     path: ADMIN_ROUTE,
@@ -24,16 +26,15 @@ export const authRoutes = [
   },
   {
     path: BASKET_ROUTE,
-    Component: Basket1,
-  },
-  {
-    path: "/order",
     Component: Basket,
   },
+
   {
     path: PROFILE_ROUTE,
     Component: Profile,
   },
+  { path: ORDER_ROUTE, Component: Order },
+  { path: ORDER_LIST_ROUTE, Component: MyOrders },
 ];
 
 export const publicRoutes = [

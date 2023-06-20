@@ -6,3 +6,5 @@ export const BASKET_ROUTE = "/basket";
 export const DEVICE_ROUTE = "/device";
 export const PROFILE_ROUTE = "/profile";
 export const TEMP_ROUTE = "/aboba";
+export const ORDER_ROUTE = "/order-purchase";
+export const ORDER_LIST_ROUTE = "/my-orders";

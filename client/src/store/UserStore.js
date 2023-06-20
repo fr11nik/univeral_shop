@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-
+import jwtDecode from "jwt-decode";
 export default class UserStore {
   constructor() {
     this._isAuth = false;
@@ -13,7 +13,9 @@ export default class UserStore {
   setUser(user) {
     this._user = user;
   }
-
+  get isAdmin() {
+    return jwtDecode(localStorage.getItem("token")).role === "ADMIN";
+  }
   get isAuth() {
     return this._isAuth;
   }

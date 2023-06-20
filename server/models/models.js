@@ -36,8 +36,6 @@ const Discount = sequelize.define("discount", {
   },
 });
 
-
-
 const Type = sequelize.define("type", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
@@ -84,6 +82,15 @@ const Sales = sequelize.define("sales", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   sale_percent: { type: DataTypes.INTEGER, allowNull: false },
 });
+const Order = sequelize.define("order", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  totalAmount: { type: DataTypes.INTEGER, allowNull: false },
+  paymentMethod: { type: DataTypes.STRING, allowNull: true },
+});
+Order.belongsTo(User); // Связь: Order принадлежит User
+Order.belongsToMany(Device, { through: "OrderDevice" });
+User.hasMany(Order); // Связь: User имеет много Order
+Device.belongsToMany(Order, { through: "OrderDevice" });
 //belongs to - принадлежит Bascket.belongsTo(User)____ Bascket - таблица где будет ссылка на belongsTo(объект)
 User.hasOne(Basket);
 Basket.belongsTo(User);
@@ -134,4 +141,5 @@ module.exports = {
   PersonalInfo,
   Address,
   Discount,
+  Order,
 };
